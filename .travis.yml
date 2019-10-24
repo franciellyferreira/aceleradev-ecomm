@@ -4,9 +4,21 @@ python:
 
 stages: 
   - name: test
+  - name: deploy
 
 jobs:
   include:
     - stage: test
       name: Unit Tests
       script: python manage.py test
+
+  include:
+    - stage: deploy
+      name: Deploy Ecomm
+      script: /bin/true
+      deploy:
+        provider: heroku
+        api_key:
+          secure: 50058ee5-a993-4b07-91af-13889046a7ed
+        app: ffs-aceleradev-ecomm
+        run: "python manage.py migrate"
